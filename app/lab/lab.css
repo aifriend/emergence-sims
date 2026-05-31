@@ -1,0 +1,354 @@
+/* ============================================================
+   SIMULATION LAB — Blueprint / technical-drawing design system
+   Ported from the Claude Design handoff bundle. All rules are
+   scoped under .lab-root so the blueprint look never leaks into
+   the rest of the Emergence-Sims app.
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+:root {
+  /* Blueprint paper */
+  --bg:        #08233f;
+  --bg-deep:   #061b32;
+  --panel:     #0b2c4f;
+  --panel-2:   #0e3258;
+
+  /* Ink (drafting line work) */
+  --ink:       #e8f1ff;
+  --ink-soft:  rgba(206, 224, 255, 0.62);
+  --ink-dim:   rgba(176, 203, 244, 0.40);
+  --line:      rgba(196, 220, 255, 0.85);
+
+  /* Grid paper */
+  --grid:        rgba(124, 170, 228, 0.10);
+  --grid-strong: rgba(124, 170, 228, 0.20);
+
+  /* Single live/active accent */
+  --accent:      #ff7a1a;
+  --accent-2:    #ffa251;
+  --accent-soft: rgba(255, 122, 26, 0.16);
+
+  --green: #57d6a0;
+  --red:   #ff5f6d;
+
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  --disp: "Saira Condensed", "Saira", sans-serif;
+
+  --r: 2px;
+}
+
+/* ---- root wrapper: takes over the viewport with the blueprint paper ---- */
+.lab-root {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* engineering graph paper: fine + coarse grid */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+    linear-gradient(var(--grid-strong) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-strong) 1px, transparent 1px);
+  background-size:
+    24px 24px,
+    24px 24px,
+    120px 120px,
+    120px 120px;
+  background-position: -1px -1px;
+}
+
+.lab-root * { box-sizing: border-box; }
+
+/* subtle cyanotype vignette */
+.lab-root::before {
+  content: "";
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(140% 120% at 50% -10%, transparent 55%, rgba(3,13,26,0.55) 100%);
+}
+
+.lab-root ::selection { background: var(--accent); color: #1a0a00; }
+
+.lab-root a { color: inherit; text-decoration: none; }
+
+/* ---- Type ---- */
+.lab-root .disp {
+  font-family: var(--disp);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+}
+.lab-root .label {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 10px;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.lab-root .tnum { font-variant-numeric: tabular-nums; }
+
+/* ============================================================
+   Drafting hairlines & registration marks
+   ============================================================ */
+.lab-root .hair      { height: 1px; background: var(--line); opacity: 0.5; }
+.lab-root .hair-dash {
+  height: 1px;
+  background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px);
+  opacity: 0.5;
+}
+.lab-root .vhair-dash {
+  width: 1px;
+  background: repeating-linear-gradient(180deg, var(--line) 0 6px, transparent 6px 12px);
+  opacity: 0.45;
+}
+
+.lab-root .regmark { position: relative; }
+.lab-root .regmark::before, .lab-root .regmark::after {
+  content: ""; position: absolute; width: 14px; height: 14px;
+  border: 1px solid var(--line); opacity: 0.6; pointer-events: none;
+}
+
+/* corner ticks on a framed box */
+.lab-root .corners { position: relative; }
+.lab-root .corners::before, .lab-root .corners::after {
+  content:""; position:absolute; width:9px; height:9px; pointer-events:none;
+  border-color: var(--accent); border-style: solid; border-width: 0;
+}
+.lab-root .corners::before { top:-1px; left:-1px;  border-top-width:2px; border-left-width:2px; }
+.lab-root .corners::after  { bottom:-1px; right:-1px; border-bottom-width:2px; border-right-width:2px; }
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.lab-root .btn {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 8px 14px;
+  cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: background .14s, color .14s, border-color .14s;
+  white-space: nowrap;
+}
+.lab-root .btn:hover { background: rgba(196,220,255,0.08); }
+.lab-root .btn-accent {
+  border-color: var(--accent);
+  color: var(--accent-2);
+}
+.lab-root .btn-accent:hover { background: var(--accent-soft); }
+.lab-root .btn-accent.on { background: var(--accent); color: #1a0a00; border-color: var(--accent); }
+.lab-root .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.lab-root .icon-dot { width:7px; height:7px; background: currentColor; display:inline-block; }
+.lab-root .icon-tri { width:0; height:0; border-left:8px solid currentColor; border-top:5px solid transparent; border-bottom:5px solid transparent; }
+.lab-root .icon-sq  { width:9px; height:9px; border:1.5px solid currentColor; display:inline-block; }
+
+/* ============================================================
+   Panels
+   ============================================================ */
+.lab-root .panel {
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  position: relative;
+}
+.lab-root .panel-h {
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(196,220,255,0.22);
+}
+
+/* ============================================================
+   Blueprint slider
+   ============================================================ */
+.lab-root .ctl { margin-bottom: 16px; }
+.lab-root .ctl-top { display:flex; align-items:baseline; justify-content:space-between; margin-bottom: 7px; gap: 8px; }
+.lab-root .ctl-name { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); }
+.lab-root .ctl-val  { font-size: 12px; color: var(--accent-2); font-variant-numeric: tabular-nums; }
+
+.lab-root input[type="range"].bp {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 22px; background: transparent; cursor: pointer; margin: 0;
+}
+.lab-root input[type="range"].bp::-webkit-slider-runnable-track {
+  height: 2px; background: var(--ink-dim);
+  background-image: repeating-linear-gradient(90deg, var(--ink-dim) 0 1px, transparent 1px 11px);
+}
+.lab-root input[type="range"].bp::-moz-range-track {
+  height: 2px; background: var(--ink-dim);
+}
+.lab-root input[type="range"].bp::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 13px; height: 13px; margin-top: -6px;
+  background: var(--accent); border: 1px solid #1a0a00;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+.lab-root input[type="range"].bp::-moz-range-thumb {
+  width: 12px; height: 12px;
+  background: var(--accent); border: 1px solid #1a0a00;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+  border-radius: 0;
+}
+
+/* toggle */
+.lab-root .toggle { display:inline-flex; border:1px solid var(--line); border-radius: var(--r); overflow:hidden; }
+.lab-root .toggle button {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+  background: transparent; color: var(--ink-soft); border:0; padding: 6px 12px; cursor:pointer;
+}
+.lab-root .toggle button.on { background: var(--accent); color:#1a0a00; }
+
+/* readout cell */
+.lab-root .read {
+  border: 1px solid rgba(196,220,255,0.22);
+  border-radius: var(--r);
+  padding: 8px 10px;
+  background: rgba(4,16,30,0.35);
+}
+.lab-root .read .k { font-size: 9px; letter-spacing:.18em; text-transform:uppercase; color: var(--ink-dim); }
+.lab-root .read .v { font-family: var(--disp); font-size: 26px; line-height: 1; margin-top: 4px; font-variant-numeric: tabular-nums; }
+
+/* scrollbars */
+.lab-root *::-webkit-scrollbar { width: 9px; height: 9px; }
+.lab-root *::-webkit-scrollbar-thumb { background: rgba(196,220,255,0.22); }
+.lab-root *::-webkit-scrollbar-track { background: transparent; }
+
+/* canvas frame */
+.lab-root .stage {
+  position: relative;
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(14,50,88,0.6), rgba(4,16,30,0.6)),
+    var(--bg-deep);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+.lab-root .stage canvas { display:block; width:100%; height:100%; }
+
+/* fade-in */
+@keyframes labfadein { from { transform: translateY(8px);} to { transform: none;} }
+.lab-root .fade { animation: labfadein .4s ease; }
+
+.lab-root .nowrap { white-space: nowrap; }
+
+/* ============================================================
+   Sim layout (stage + control rail)
+   ============================================================ */
+.lab-root .sim-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
+  align-items: stretch;
+  min-height: 0;
+}
+.lab-root .sim-stage-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.lab-root .sim-transport { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.lab-root .sim-rail { display: flex; flex-direction: column; min-height: 0; }
+.lab-root .sim-rail-body { padding: 16px; overflow-y: auto; }
+.lab-root .sim-readouts {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin-top: 4px; padding-top: 18px; border-top: 1px dashed rgba(196,220,255,0.25);
+}
+.lab-root .sim-foot {
+  margin-top: 16px; padding-top: 14px; border-top: 1px dashed rgba(196,220,255,0.25);
+  font-size: 10.5px; line-height: 1.6; color: var(--ink-dim);
+}
+@media (max-width: 860px) {
+  .lab-root .sim-grid { grid-template-columns: 1fr; }
+  .lab-root .sim-rail { order: 2; }
+}
+
+/* ============================================================
+   App shell: header, hero, gallery, detail
+   ============================================================ */
+.lab-root .wrap { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 24px 80px; }
+
+.lab-root .topbar {
+  display: flex; align-items: stretch; justify-content: space-between;
+  border: 1px solid var(--line); margin-top: 22px;
+  background: rgba(6,27,50,0.5);
+}
+.lab-root .brand { display: flex; align-items: center; gap: 14px; padding: 14px 18px; cursor: pointer; }
+.lab-root .brand .mark { width: 30px; height: 30px; position: relative; flex: none; }
+.lab-root .brand .mark::before { content:""; position:absolute; inset:0; border:1.5px solid var(--ink); }
+.lab-root .brand .mark::after { content:""; position:absolute; inset:7px; border:1.5px solid var(--accent); }
+.lab-root .brand .mark .cross { position:absolute; inset:0; }
+.lab-root .brand h1 { font-family: var(--disp); font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: 21px; margin: 0; line-height: 1; }
+.lab-root .brand .sub { font-size: 9.5px; letter-spacing: .26em; text-transform: uppercase; color: var(--ink-dim); margin-top: 4px; }
+
+/* drafting title-block cells */
+.lab-root .tblock { display: grid; grid-template-columns: repeat(4, minmax(72px, auto)); }
+.lab-root .tblock .cell { border-left: 1px solid rgba(196,220,255,0.3); padding: 12px 18px; display: flex; flex-direction: column; justify-content: center; }
+.lab-root .tblock .k { font-size: 8.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-dim); }
+.lab-root .tblock .v { font-size: 12px; color: var(--ink); margin-top: 8px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 720px) { .lab-root .tblock { display: none; } }
+
+/* hero */
+.lab-root .hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: end; padding: 46px 4px 30px; }
+.lab-root .hero h2 { font-family: var(--disp); font-weight: 700; text-transform: uppercase; letter-spacing: .01em; font-size: clamp(34px, 5.4vw, 62px); line-height: 1.0; margin: 0; padding-bottom: 6px; }
+.lab-root .hero h2 .o { color: var(--accent); }
+.lab-root .hero .lede { color: var(--ink-soft); max-width: 40ch; margin-top: 26px; font-size: 13.5px; line-height: 1.7; }
+.lab-root .hero .meta { text-align: right; }
+.lab-root .hero .bignum { font-family: var(--disp); font-size: 64px; line-height: 1; color: var(--ink); }
+@media (max-width: 760px) { .lab-root .hero { grid-template-columns: 1fr; gap: 8px; } .lab-root .hero .meta { text-align: left; } }
+
+.lab-root .sectionbar { display:flex; align-items:center; gap: 14px; margin: 18px 0 18px; }
+.lab-root .sectionbar .label { white-space: nowrap; }
+.lab-root .sectionbar .grow { flex: 1; height: 1px; background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px); opacity:.5; }
+
+/* gallery */
+.lab-root .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+.lab-root .card {
+  border: 1px solid var(--line); background: rgba(8,35,63,0.6);
+  display: flex; flex-direction: column; cursor: pointer; position: relative;
+  transition: transform .16s, box-shadow .16s, border-color .16s;
+}
+.lab-root .card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px -16px rgba(0,0,0,0.6); border-color: var(--accent); }
+.lab-root .card .thumb { height: 168px; border-bottom: 1px solid rgba(196,220,255,0.28); position: relative; overflow: hidden; background: #061b32; }
+.lab-root .card .thumb canvas { width: 100%; height: 100%; display: block; }
+.lab-root .card .figtag {
+  position: absolute; top: 8px; left: 8px; z-index: 2;
+  font-size: 9px; letter-spacing: .18em; color: var(--accent-2);
+  border: 1px solid var(--accent); padding: 2px 6px; background: rgba(8,35,63,0.7);
+}
+.lab-root .card .open-cue {
+  position: absolute; top: 8px; right: 8px; z-index: 2;
+  font-size: 9px; letter-spacing: .16em; color: var(--ink-dim); opacity: 0; transition: opacity .16s;
+}
+.lab-root .card:hover .open-cue { opacity: 1; color: var(--accent-2); }
+.lab-root .card .body { padding: 14px 15px 16px; }
+.lab-root .card .body .tag { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-dim); }
+.lab-root .card .body h3 { font-family: var(--disp); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; font-size: 22px; margin: 6px 0 2px; }
+.lab-root .card .body .csub { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); }
+.lab-root .card .body p { color: var(--ink-soft); font-size: 12px; line-height: 1.55; margin: 10px 0 0; }
+.lab-root .card .body .foot { display:flex; justify-content: space-between; align-items:center; margin-top: 14px; padding-top: 12px; border-top: 1px dashed rgba(196,220,255,0.22); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-dim); }
+
+/* detail */
+.lab-root .detail-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin: 22px 0 18px; flex-wrap: wrap; }
+.lab-root .detail-head .left { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.lab-root .detail-head h2 { font-family: var(--disp); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; font-size: clamp(30px, 5vw, 48px); margin: 0; line-height: 1; }
+.lab-root .detail-head .fig { font-size: 11px; letter-spacing: .2em; color: var(--accent-2); border: 1px solid var(--accent); padding: 4px 9px; }
+.lab-root .detail-head .sub { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-dim); }
+
+.lab-root .lab-notes { color: var(--ink-soft); font-size: 13px; line-height: 1.75; max-width: 64ch; }
+
+/* footer title block */
+.lab-root .footblock { margin-top: 40px; border: 1px solid var(--line); display: grid; grid-template-columns: 2fr repeat(3, 1fr); }
+.lab-root .footblock .cell { border-left: 1px solid rgba(196,220,255,0.28); padding: 16px 20px; }
+.lab-root .footblock .cell:first-child { border-left: 0; }
+.lab-root .footblock .k { display: block; font-size: 8.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-dim); }
+.lab-root .footblock .v { display: block; font-size: 12px; margin-top: 11px; }
+.lab-root .footblock .v.big { font-family: var(--disp); font-size: 18px; text-transform: uppercase; letter-spacing: .06em; }
+@media (max-width: 720px) { .lab-root .footblock { grid-template-columns: 1fr 1fr; } .lab-root .footblock .cell { border-left: 0; border-top: 1px solid rgba(196,220,255,0.2); } }
