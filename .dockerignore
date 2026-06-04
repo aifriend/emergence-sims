@@ -1,0 +1,8 @@
+node_modules
+.next
+.git
+.github
+.DS_Store
+*.md
+LICENSE
+npm-debug.log*

@@ -6,6 +6,3 @@
 next-env.d.ts
 .DS_Store
 .env*
-
-# keep the repo lockfile-free (regenerates via npm install)
-package-lock.json

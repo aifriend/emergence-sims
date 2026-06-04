@@ -1,0 +1,44 @@
+name: deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  id-token: write # keyless auth to GCP via Workload Identity Federation
+
+env:
+  PROJECT_ID: aifriend-481920
+  REGION: europe-west1
+  SERVICE: emergence-sims
+  REPO: emergence-sims
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: projects/472802182662/locations/global/workloadIdentityPools/github/providers/github
+          service_account: gha-deployer@aifriend-481920.iam.gserviceaccount.com
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build, push, and deploy to Cloud Run
+        run: |
+          IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO}/app:${GITHUB_SHA}"
+          gcloud auth configure-docker "${REGION}-docker.pkg.dev" --quiet
+          docker build --platform linux/amd64 -t "$IMAGE" .
+          docker push "$IMAGE"
+          gcloud run deploy "${SERVICE}" \
+            --image "$IMAGE" \
+            --region "${REGION}" \
+            --allow-unauthenticated \
+            --port 8080 \
+            --quiet
+          gcloud run services describe "${SERVICE}" --region "${REGION}" \
+            --format='value(status.url)'
