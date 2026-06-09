@@ -344,6 +344,20 @@
 
 .lab-root .lab-notes { color: var(--ink-soft); font-size: 13px; line-height: 1.75; max-width: 64ch; }
 
+/* back-to-site link stacked above the brand in the topbar */
+.lab-root .brand-col { display: flex; flex-direction: column; justify-content: center; }
+.lab-root .home-link { padding: 9px 18px 0; display: inline-flex; align-items: center; gap: 6px; color: var(--ink-dim); transition: color .14s; }
+.lab-root .home-link:hover { color: var(--accent-2); }
+.lab-root .brand-col .brand { padding-top: 5px; }
+
+/* parameter guide on detail sheets */
+.lab-root .lab-params { max-width: 74ch; margin: 2px 0 0; }
+.lab-root .lab-params .row { display: grid; grid-template-columns: 210px 1fr; gap: 18px; padding: 12px 0; border-top: 1px dashed rgba(196,220,255,0.2); }
+.lab-root .lab-params .row:first-child { border-top: 0; }
+.lab-root .lab-params dt { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-2); }
+.lab-root .lab-params dd { margin: 0; color: var(--ink-soft); font-size: 12.5px; line-height: 1.65; }
+@media (max-width: 640px) { .lab-root .lab-params .row { grid-template-columns: 1fr; gap: 5px; } }
+
 /* footer title block */
 .lab-root .footblock { margin-top: 40px; border: 1px solid var(--line); display: grid; grid-template-columns: 2fr repeat(3, 1fr); }
 .lab-root .footblock .cell { border-left: 1px solid rgba(196,220,255,0.28); padding: 16px 20px; }

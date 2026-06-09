@@ -21,13 +21,18 @@ function Mark(): ReactNode {
 export function Topbar({ sheet, total }: { sheet: number; total: number }): ReactNode {
   return (
     <div className="topbar">
-      <Link href="/lab" className="brand">
-        <Mark />
-        <div>
-          <h1>Simulation Lab</h1>
-          <div className="sub">Interactive Models &amp; Visualizations</div>
-        </div>
-      </Link>
+      <div className="brand-col">
+        <Link href="/" className="label home-link">
+          ‹ Back to Emergence Sims
+        </Link>
+        <Link href="/lab" className="brand">
+          <Mark />
+          <div>
+            <h1>Simulation Lab</h1>
+            <div className="sub">Interactive Models &amp; Visualizations</div>
+          </div>
+        </Link>
+      </div>
       <div className="tblock">
         <div className="cell">
           <span className="k">Sheet</span>
