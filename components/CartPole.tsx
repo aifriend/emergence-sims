@@ -163,8 +163,9 @@ export default function CartPole(): ReactNode {
       ctx.setLineDash([]);
       if (curve.length > 1) {
         ctx.beginPath();
+        const denom = Math.max(1, curve.length - 1); // span the partial curve full-width
         for (let i = 0; i < curve.length; i++) {
-          const x = (i / (CURVE_MAX - 1)) * w;
+          const x = (i / denom) * w;
           const y = yOf(curve[i]);
           if (i) ctx.lineTo(x, y);
           else ctx.moveTo(x, y);

@@ -261,7 +261,27 @@ export function SIR(): ReactNode {
               min={60}
               max={600}
               step={20}
-              onChange={(v) => setP((o) => ({ ...o, pop: v }))}
+              onChange={(v) => {
+                setP((o) => ({ ...o, pop: v }));
+                // Resize the live agent array so the dot count actually changes.
+                // Previously only Reset re-seeded, so dragging Size just rescaled
+                // the readouts/curve against a population that wasn't on screen.
+                const a = ag.current;
+                const { w, h } = dim.current;
+                while (a.length < v) {
+                  const ang = Math.random() * Math.PI * 2;
+                  a.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    vx: Math.cos(ang),
+                    vy: Math.sin(ang),
+                    s: S,
+                    t: 0,
+                    moving: Math.random() > live.current.distancing,
+                  });
+                }
+                if (a.length > v) a.length = v;
+              }}
             />
             <Slider
               label="Mobility"

@@ -117,13 +117,14 @@ export default function Attention(): ReactNode {
       beamGeo.attributes.color.needsUpdate = true;
     }
 
+    const WHITE = new THREE.Color(0xffffff);
     function refreshNodes() {
       const q = queryRef.current;
       for (let i = 0; i < n; i++) {
         const active = i === q;
         nodes[i].scale.setScalar(active ? 1.9 : 1);
         const m = nodes[i].material as THREE.MeshBasicMaterial;
-        m.color.copy(active ? new THREE.Color(0xffffff) : nodeColor[i]);
+        m.color.copy(active ? WHITE : nodeColor[i]); // reuse; was a per-frame alloc
       }
     }
 

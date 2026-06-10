@@ -104,7 +104,10 @@ export function ReactionDiffusion(): ReactNode {
         B = G.B,
         A2 = G.A2,
         B2 = G.B2;
-      for (let it = 0; it < P.speed; it++) {
+      // Bound per-frame work: full `speed` × rows×cols can blow the frame
+      // budget on a large canvas and hitch. Cap total cell-updates per frame.
+      const itCap = Math.max(1, Math.min(P.speed, Math.floor(240000 / (rows * cols))));
+      for (let it = 0; it < itCap; it++) {
         for (let y = 0; y < rows; y++) {
           const ym = (y - 1 + rows) % rows,
             yp = (y + 1) % rows;

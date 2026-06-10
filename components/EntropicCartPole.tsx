@@ -125,7 +125,11 @@ export default function EntropicCartPole(): ReactNode {
       if (runningRef.current) {
         acc += dt * speedRef.current;
         let guard = 0;
-        while (acc >= STEP_MS && guard < 12) {
+        // Each step re-plans via Monte-Carlo rollouts (2·K·H cpStep calls), so
+        // the per-frame budget is bounded hard: at the slider maxima 4 steps is
+        // already ~20k cpStep/frame. (Surplus sim-time stays in `acc` for next
+        // frame, so the sim doesn't lose time — it just can't burst.)
+        while (acc >= STEP_MS && guard < 4) {
           acc -= STEP_MS;
           guard++;
           if (nudgeRef.current !== 0) {

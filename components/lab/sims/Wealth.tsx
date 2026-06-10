@@ -111,6 +111,8 @@ export function Wealth(): ReactNode {
 
   function reset() {
     w.current.fill(W0);
+    sorted.current.set(w.current); // refresh the derived view draw() reads
+    sorted.current.sort();
     acc.current = 0;
     trades.current = 0;
     gHist.current = [];
