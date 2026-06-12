@@ -31,8 +31,10 @@ export default function LabGallery(): ReactNode {
                     <div className="csub">{s.sub}</div>
                     <p>{s.desc}</p>
                     <div className="foot">
-                      <span>{s.params} parameters</span>
-                      <span>{s.kind === "playback" ? "Recorded" : "Real-time"}</span>
+                      <span>
+                        {s.kind === "playback" ? "Recorded run" : `${s.params} parameters`}
+                      </span>
+                      <span>{s.kind === "playback" ? "Video" : "Real-time"}</span>
                     </div>
                   </div>
                 </Link>

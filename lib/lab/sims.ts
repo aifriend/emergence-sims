@@ -277,6 +277,28 @@ export const LAB_SIMS: SimMeta[] = [
     params: 2,
     desc: "Two rules — turn right on white, left on black — and ~10,000 steps of chaos suddenly self-organise into an endless diagonal highway.",
   },
+  {
+    id: "openworm",
+    fig: "24",
+    title: "C. elegans",
+    sub: "OpenWorm · c302 + Sibernetic",
+    tag: "Whole-organism",
+    domain: "Biology",
+    kind: "playback",
+    params: 0,
+    desc: "A 1-mm worm simulated whole: ~300 neurons (c302 / NEURON) driving a soft-body physics model — and a forward crawl emerges. A recorded run.",
+  },
+  {
+    id: "atari-pong",
+    fig: "25",
+    title: "Deep RL — Atari Pong",
+    sub: "IQN agent",
+    tag: "Deep RL",
+    domain: "Learning & Intelligence",
+    kind: "playback",
+    params: 0,
+    desc: "A distributional deep-RL agent (Implicit Quantile Networks) playing Pong from raw pixels — recorded during a greedy evaluation.",
+  },
 ];
 
 LAB_SIMS.sort((a, b) => a.fig.localeCompare(b.fig));

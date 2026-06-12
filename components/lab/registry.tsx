@@ -7,6 +7,7 @@
  */
 import dynamic from "next/dynamic";
 import type { ComponentType, ReactNode } from "react";
+import { makePlaybackThumb } from "./PlaybackThumb";
 
 function StageLoading(): ReactNode {
   return (
@@ -200,4 +201,7 @@ export const SIM_THUMBS: Record<string, ComponentType> = {
   langton: dynamic(() => import("./sims/Langton").then((m) => m.LangtonThumb), {
     ssr: false,
   }),
+  // recorded-playback cards: poster thumbnails (no live canvas)
+  openworm: makePlaybackThumb("openworm"),
+  "atari-pong": makePlaybackThumb("atari-pong"),
 };
