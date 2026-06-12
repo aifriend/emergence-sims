@@ -84,6 +84,22 @@ export default function Home(): ReactNode {
         </Link>
 
         <Link
+          href="/sim/neuroevolution"
+          className="group inline-flex items-center gap-3 rounded-xl border border-white/10 bg-[var(--color-bg-soft)] px-5 py-4 transition hover:border-[var(--color-accent)]/50"
+        >
+          <span className="text-2xl">🏎️</span>
+          <span>
+            <span className="block font-medium">Evolution Behind the Wheel</span>
+            <span className="block text-sm text-[var(--color-muted)]">
+              A neural net evolves to drive — 9 sensors, no map
+            </span>
+          </span>
+          <span className="ml-2 text-[var(--color-accent)] transition group-hover:translate-x-1">
+            →
+          </span>
+        </Link>
+
+        <Link
           href="/lab"
           className="group inline-flex items-center gap-3 rounded-xl border border-white/10 bg-[var(--color-bg-soft)] px-5 py-4 transition hover:border-[var(--color-accent)]/50"
         >
