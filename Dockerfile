@@ -18,5 +18,8 @@ ENV PORT=8080
 # Next standalone output: minimal server + traced node_modules
 COPY --from=build /app/.next/standalone ./
 COPY --from=build /app/.next/static ./.next/static
+# public/ is NOT bundled into standalone output — copy it so /brains and
+# /playback static assets (brain weights, recorded-run videos) are served.
+COPY --from=build /app/public ./public
 EXPOSE 8080
 CMD ["node", "server.js"]
