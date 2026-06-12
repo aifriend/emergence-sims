@@ -299,6 +299,16 @@ export const LAB_SIMS: SimMeta[] = [
     params: 0,
     desc: "A distributional deep-RL agent (Implicit Quantile Networks) playing Pong from raw pixels — recorded during a greedy evaluation.",
   },
+  {
+    id: "lenia",
+    fig: "26",
+    title: "Lenia",
+    sub: "Chan, 2018 · continuous CA",
+    tag: "Continuous automata",
+    domain: "Cellular Automata",
+    params: 3,
+    desc: "Life made continuous: real-valued cells, a smooth ring kernel and a bell-shaped growth rule conjure the Orbium — a creature that genuinely swims.",
+  },
 ];
 
 LAB_SIMS.sort((a, b) => a.fig.localeCompare(b.fig));

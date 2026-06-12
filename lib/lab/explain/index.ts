@@ -22,6 +22,7 @@ import entropica from "./entropica";
 import elementary from "./elementary";
 import wireworld from "./wireworld";
 import langton from "./langton";
+import lenia from "./lenia";
 
 /** id → explanatory content, rendered (SSR) on each /lab/[sim] detail sheet. */
 export const SIM_EXPLAIN: Record<string, SimExplain> = {
@@ -48,4 +49,5 @@ export const SIM_EXPLAIN: Record<string, SimExplain> = {
   elementary,
   wireworld,
   langton,
+  lenia,
 };

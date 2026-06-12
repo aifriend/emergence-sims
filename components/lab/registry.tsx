@@ -118,6 +118,10 @@ export const SIM_COMPONENTS: Record<string, ComponentType> = {
     ssr: false,
     loading: StageLoading,
   }),
+  lenia: dynamic(() => import("./sims/Lenia").then((m) => m.Lenia), {
+    ssr: false,
+    loading: StageLoading,
+  }),
 };
 
 export const SIM_THUMBS: Record<string, ComponentType> = {
@@ -199,6 +203,9 @@ export const SIM_THUMBS: Record<string, ComponentType> = {
     { ssr: false },
   ),
   langton: dynamic(() => import("./sims/Langton").then((m) => m.LangtonThumb), {
+    ssr: false,
+  }),
+  lenia: dynamic(() => import("./sims/Lenia").then((m) => m.LeniaThumb), {
     ssr: false,
   }),
   // recorded-playback cards: poster thumbnails (no live canvas)
