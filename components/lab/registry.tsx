@@ -105,6 +105,18 @@ export const SIM_COMPONENTS: Record<string, ComponentType> = {
     ssr: false,
     loading: StageLoading,
   }),
+  elementary: dynamic(
+    () => import("./sims/Elementary").then((m) => m.Elementary),
+    { ssr: false, loading: StageLoading },
+  ),
+  wireworld: dynamic(() => import("./sims/Wireworld").then((m) => m.Wireworld), {
+    ssr: false,
+    loading: StageLoading,
+  }),
+  langton: dynamic(() => import("./sims/Langton").then((m) => m.Langton), {
+    ssr: false,
+    loading: StageLoading,
+  }),
 };
 
 export const SIM_THUMBS: Record<string, ComponentType> = {
@@ -177,4 +189,15 @@ export const SIM_THUMBS: Record<string, ComponentType> = {
     () => import("./sims/Entropica").then((m) => m.EntropicaThumb),
     { ssr: false },
   ),
+  elementary: dynamic(
+    () => import("./sims/Elementary").then((m) => m.ElementaryThumb),
+    { ssr: false },
+  ),
+  wireworld: dynamic(
+    () => import("./sims/Wireworld").then((m) => m.WireworldThumb),
+    { ssr: false },
+  ),
+  langton: dynamic(() => import("./sims/Langton").then((m) => m.LangtonThumb), {
+    ssr: false,
+  }),
 };

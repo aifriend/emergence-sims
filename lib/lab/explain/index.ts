@@ -19,6 +19,9 @@ import neuron from "./neuron";
 import spatialpd from "./spatialpd";
 import bifurcation from "./bifurcation";
 import entropica from "./entropica";
+import elementary from "./elementary";
+import wireworld from "./wireworld";
+import langton from "./langton";
 
 /** id → explanatory content, rendered (SSR) on each /lab/[sim] detail sheet. */
 export const SIM_EXPLAIN: Record<string, SimExplain> = {
@@ -42,4 +45,7 @@ export const SIM_EXPLAIN: Record<string, SimExplain> = {
   spatialpd,
   bifurcation,
   entropica,
+  elementary,
+  wireworld,
+  langton,
 };

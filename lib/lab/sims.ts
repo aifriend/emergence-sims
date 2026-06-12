@@ -247,6 +247,36 @@ export const LAB_SIMS: SimMeta[] = [
     params: 3,
     desc: "A particle with no goal, drifting to wherever its futures stay most open — Wissner-Gross's thesis that intelligence is a force toward freedom of action.",
   },
+  {
+    id: "elementary",
+    fig: "21",
+    title: "Elementary CA",
+    sub: "Wolfram · 1-D",
+    tag: "1-D automata",
+    domain: "Cellular Automata",
+    params: 3,
+    desc: "One integer 0–255 sets eight rules for a row of cells — out come fractals (90), chaos (30) and Rule 110, a Turing-complete computer.",
+  },
+  {
+    id: "wireworld",
+    fig: "22",
+    title: "Wireworld",
+    sub: "Silverman, 1987",
+    tag: "Logic circuits",
+    domain: "Cellular Automata",
+    params: 2,
+    desc: "A four-state automaton where electrons race along wires — enough to build logic gates, memory and, in principle, a whole computer.",
+  },
+  {
+    id: "langton",
+    fig: "23",
+    title: "Langton's Ant",
+    sub: "Langton, 1986",
+    tag: "Emergent order",
+    domain: "Cellular Automata",
+    params: 2,
+    desc: "Two rules — turn right on white, left on black — and ~10,000 steps of chaos suddenly self-organise into an endless diagonal highway.",
+  },
 ];
 
 LAB_SIMS.sort((a, b) => a.fig.localeCompare(b.fig));
