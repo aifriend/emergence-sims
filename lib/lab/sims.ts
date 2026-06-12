@@ -7,6 +7,17 @@
  * `id` in `components/lab/registry.tsx`.
  */
 
+/** Top-level grouping for the gallery + constellation landing. */
+export type SimDomain =
+  | "Cellular Automata"
+  | "Agent-Based"
+  | "Dynamics & Chaos"
+  | "Learning & Intelligence"
+  | "Biology";
+
+/** Render path: an interactive in-browser model, or a recorded-run player. */
+export type SimKind = "interactive" | "playback";
+
 export type SimMeta = {
   /** route id, e.g. "boids" -> /lab/boids */
   id: string;
@@ -17,10 +28,23 @@ export type SimMeta = {
   sub: string;
   /** taxonomy lens, e.g. "Emergence" */
   tag: string;
+  /** section the card lives under in the gallery */
+  domain: SimDomain;
+  /** how the detail sheet renders it; defaults to "interactive" when omitted */
+  kind?: SimKind;
   /** number of tunable parameters (shown on the card) */
   params: number;
   desc: string;
 };
+
+/** Narrative order of the gallery sections (rules → agents → dynamics → mind → life). */
+export const DOMAIN_ORDER: SimDomain[] = [
+  "Cellular Automata",
+  "Agent-Based",
+  "Dynamics & Chaos",
+  "Learning & Intelligence",
+  "Biology",
+];
 
 export const LAB_SIMS: SimMeta[] = [
   {
@@ -29,6 +53,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Flocking",
     sub: "Reynolds boids",
     tag: "Emergence",
+    domain: "Agent-Based",
     params: 7,
     desc: "Local rules, global order. Hundreds of agents self-organise into a murmuration.",
   },
@@ -38,6 +63,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Game of Life",
     sub: "Conway, 1970",
     tag: "Cellular automata",
+    domain: "Cellular Automata",
     params: 3,
     desc: "A two-state cellular automaton. Four rules give rise to gliders, guns and universal computation.",
   },
@@ -47,6 +73,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Predator – Prey",
     sub: "Lotka–Volterra",
     tag: "Dynamical system",
+    domain: "Dynamics & Chaos",
     params: 5,
     desc: "Coupled ODEs for two species. Watch the eternal oscillation and its phase-space orbit.",
   },
@@ -56,6 +83,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Epidemic Spread",
     sub: "SIR · agent-based",
     tag: "Contagion",
+    domain: "Agent-Based",
     params: 6,
     desc: "Susceptible, infected, recovered. A contact network in motion — flatten the curve in real time.",
   },
@@ -65,6 +93,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Ant Colony",
     sub: "Stigmergy",
     tag: "Swarm intelligence",
+    domain: "Agent-Based",
     params: 5,
     desc: "Pheromone foraging. Trails self-organise between nest and food with no central control.",
   },
@@ -74,6 +103,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Reaction – Diffusion",
     sub: "Gray–Scott",
     tag: "Turing patterns",
+    domain: "Cellular Automata",
     params: 3,
     desc: "Two chemicals, diffusing and reacting. Turing's morphogenesis grows spots, mazes and coral from noise.",
   },
@@ -83,6 +113,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Associative Memory",
     sub: "Hopfield, 1982",
     tag: "Neural memory",
+    domain: "Learning & Intelligence",
     params: 4,
     desc: "Store patterns as energy minima. Feed in a corrupted cue and watch the network fall back into the memory it most resembles.",
   },
@@ -92,6 +123,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Reward Prediction",
     sub: "TD-learning",
     tag: "Reinforcement",
+    domain: "Learning & Intelligence",
     params: 4,
     desc: "A value signal learns to predict reward — and its prediction error behaves like dopamine, marching from the reward back to the cue.",
   },
@@ -101,6 +133,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Q-Learning",
     sub: "Watkins, 1989",
     tag: "Reinforcement",
+    domain: "Learning & Intelligence",
     params: 4,
     desc: "An agent learns a gridworld by trial and error; value floods outward from the goal and the greedy policy snaps into place.",
   },
@@ -110,6 +143,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Segregation",
     sub: "Schelling, 1971",
     tag: "Social dynamics",
+    domain: "Agent-Based",
     params: 3,
     desc: "Each agent only wants a few like-minded neighbours — yet that mild preference tips a mixed city into stark, self-organised segregation.",
   },
@@ -119,6 +153,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Voting Methods",
     sub: "Social choice",
     tag: "Decision",
+    domain: "Agent-Based",
     params: 3,
     desc: "The same voters, four fair-looking rules, four different winners — a live tour of the spoiler effect and Arrow's impossibility theorem.",
   },
@@ -128,6 +163,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Wealth & Inequality",
     sub: "Kinetic exchange",
     tag: "Econophysics",
+    domain: "Agent-Based",
     params: 4,
     desc: "Start everyone equal and let them trade by fair coin flips; a Pareto elite emerges from pure chance — and tax policy fights back.",
   },
@@ -137,6 +173,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Synchrony",
     sub: "Kuramoto",
     tag: "Synchronization",
+    domain: "Dynamics & Chaos",
     params: 3,
     desc: "Hundreds of oscillators with their own rhythms; turn up the coupling and they snap into lockstep — the math behind brain waves and firefly flashing.",
   },
@@ -146,6 +183,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Echo Chambers",
     sub: "Bounded confidence",
     tag: "Social dynamics",
+    domain: "Agent-Based",
     params: 3,
     desc: "People only listen to those who already think like them. Tune the open-mindedness and watch a society reach consensus — or fracture into camps.",
   },
@@ -155,6 +193,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Market",
     sub: "Fundamentalists vs chartists",
     tag: "Markets",
+    domain: "Agent-Based",
     params: 4,
     desc: "Price emerges from value-investors versus trend-chasers. Trend-following breeds bubbles, crashes and the clustered volatility of real markets.",
   },
@@ -164,6 +203,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Minority Game",
     sub: "El Farol",
     tag: "Bounded rationality",
+    domain: "Agent-Based",
     params: 3,
     desc: "Selfish agents with no communication and short memories self-organise to share a scarce resource, hovering right at its capacity.",
   },
@@ -173,6 +213,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Action Potential",
     sub: "Hodgkin–Huxley",
     tag: "Neuroscience",
+    domain: "Biology",
     params: 4,
     desc: "The all-or-nothing nerve impulse from real ion-channel kinetics — inject current and watch a single neuron fire the spike behind every thought.",
   },
@@ -182,6 +223,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Cooperation",
     sub: "Spatial Prisoner's Dilemma",
     tag: "Game theory",
+    domain: "Agent-Based",
     params: 3,
     desc: "Defection wins in a well-mixed crowd — but on a grid, cooperators huddle into clusters that defend their borders, and cooperation survives.",
   },
@@ -191,6 +233,7 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Route to Chaos",
     sub: "Logistic map",
     tag: "Chaos",
+    domain: "Dynamics & Chaos",
     params: 2,
     desc: "Turn one knob and a stable population splits into 2-, 4-, 8-cycles and then deterministic chaos — at Feigenbaum's universal rate.",
   },
@@ -200,10 +243,13 @@ export const LAB_SIMS: SimMeta[] = [
     title: "Future Freedom",
     sub: "Causal entropic forces",
     tag: "Emergence",
+    domain: "Learning & Intelligence",
     params: 3,
     desc: "A particle with no goal, drifting to wherever its futures stay most open — Wissner-Gross's thesis that intelligence is a force toward freedom of action.",
   },
-].sort((a, b) => a.fig.localeCompare(b.fig));
+];
+
+LAB_SIMS.sort((a, b) => a.fig.localeCompare(b.fig));
 
 /** index sheet (gallery) + one sheet per model */
 export const LAB_TOTAL = LAB_SIMS.length + 1;
@@ -215,3 +261,14 @@ export const sheetForFig = (fig: string): number => parseInt(fig, 10) + 1;
 
 export const getSim = (id: string): SimMeta | undefined =>
   LAB_SIMS.find((s) => s.id === id);
+
+export const isPlayback = (s: SimMeta): boolean => s.kind === "playback";
+
+/** Sims grouped into gallery sections, in DOMAIN_ORDER, fig-sorted within each.
+ * Empty domains are omitted so the gallery only renders populated sections. */
+export function simsByDomain(): { domain: SimDomain; sims: SimMeta[] }[] {
+  return DOMAIN_ORDER.map((domain) => ({
+    domain,
+    sims: LAB_SIMS.filter((s) => s.domain === domain),
+  })).filter((group) => group.sims.length > 0);
+}

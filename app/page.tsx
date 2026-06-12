@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { LAB_SIMS } from "@/lib/lab/sims";
 
 export default function Home(): ReactNode {
   return (
@@ -90,7 +91,8 @@ export default function Home(): ReactNode {
           <span>
             <span className="block font-medium">Simulation Lab</span>
             <span className="block text-sm text-[var(--color-muted)]">
-              Sixteen live blueprint models — flocking, memory, markets &amp; more
+              {LAB_SIMS.length} live models across five domains — automata,
+              agents, dynamics, learning &amp; biology
             </span>
           </span>
           <span className="ml-2 text-[var(--color-accent)] transition group-hover:translate-x-1">

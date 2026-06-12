@@ -366,3 +366,20 @@
 .lab-root .footblock .v { display: block; font-size: 12px; margin-top: 11px; }
 .lab-root .footblock .v.big { font-family: var(--disp); font-size: 18px; text-transform: uppercase; letter-spacing: .06em; }
 @media (max-width: 720px) { .lab-root .footblock { grid-template-columns: 1fr 1fr; } .lab-root .footblock .cell { border-left: 0; border-top: 1px solid rgba(196,220,255,0.2); } }
+
+/* gallery domain sections + constellation intro */
+.lab-root .domain-section { margin-top: 36px; }
+.lab-root .domain-section:first-of-type { margin-top: 14px; }
+.lab-root .constellation-intro { margin: 12px 0 2px; max-width: 78ch; }
+
+/* recorded-run player (kind: playback) */
+.lab-root .playback { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 22px; align-items: start; margin: 6px 0 4px; }
+.lab-root .playback-stage { border: 1px solid var(--line); background: #04101f; }
+.lab-root .playback-video { display: block; width: 100%; height: auto; }
+.lab-root .playback-side { display: flex; flex-direction: column; gap: 14px; }
+.lab-root .playback-plots { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.lab-root .playback-plots figure { margin: 0; }
+.lab-root .playback-plots img { width: 100%; height: auto; border: 1px solid var(--line); }
+.lab-root .playback-plots figcaption { margin-top: 4px; }
+.lab-root .playback-source { color: var(--ink-dim); margin-top: 2px; }
+@media (max-width: 760px) { .lab-root .playback { grid-template-columns: 1fr; } }

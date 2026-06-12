@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { DetailHead, FooterBlock, SectionBar, Topbar } from "@/components/lab/Chrome";
 import LabSimMount from "@/components/lab/LabSimMount";
+import RecordedPlayback from "@/components/lab/RecordedPlayback";
 import { LAB_SIMS, LAB_TOTAL, getSim, pad2, sheetForFig } from "@/lib/lab/sims";
 import { SIM_EXPLAIN } from "@/lib/lab/explain";
 
@@ -43,7 +44,11 @@ export default async function LabSimPage({
       <Topbar sheet={sheet} total={LAB_TOTAL} />
       <div className="fade">
         <DetailHead sim={sim} />
-        <LabSimMount id={sim.id} />
+        {sim.kind === "playback" ? (
+          <RecordedPlayback id={sim.id} />
+        ) : (
+          <LabSimMount id={sim.id} />
+        )}
         {ex ? (
           <>
             <SectionBar
