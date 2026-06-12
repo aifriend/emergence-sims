@@ -2,11 +2,19 @@ import type { SimExplain } from "./types";
 
 const explain: SimExplain = {
   about:
-    "Conway's Game of Life: a grid of cells that are either alive or dead, updated by four rules applied to every cell at once. A live cell survives with 2 or 3 live neighbours and a dead cell is born with exactly 3; everything else dies. From that trivial rule comes startling complexity — still lifes, blinking oscillators, gliders that crawl across the grid, and long-lived chaos — and the system is famously Turing-complete.",
+    "Conway's Game of Life: a grid of cells that are either alive or dead, updated by four rules applied to every cell at once. A live cell survives with 2 or 3 live neighbours and a dead cell is born with exactly 3; everything else dies. From that trivial rule comes startling complexity — still lifes, blinking oscillators, gliders that crawl across the grid, and long-lived chaos — and the system is famously Turing-complete. Conway's B3/S23 is only one of a whole family of birth/survival rules, and you can switch between several here.",
   controls: [
     {
       label: "Speed",
       tip: "Generations computed per second (1–40 gen/s). Drop it to 1 to step through a glider cell-by-cell and see exactly how the four rules move it; push it to 40 to fast-forward a busy field toward its eventual still lifes and oscillators.",
+    },
+    {
+      label: "Rule",
+      tip: "The birth/survival rule in Golly 'B…/S…' notation. Life (B3/S23) is Conway's; HighLife (B36/S23) adds a self-replicator; Day & Night (B3678/S34678) is symmetric under swapping live and dead; Seeds (B2/S) has no survival at all — every cell dies each step, so only explosive growth persists. Switch it live and the same soup behaves completely differently.",
+    },
+    {
+      label: "Pattern",
+      tip: "Stamps a famous seed onto a cleared grid: a Glider (the smallest spaceship, crawls diagonally), the R-pentomino (5 cells that erupt for 1100+ generations), or the Gosper gun (the first pattern shown to grow forever, firing a glider every 30 steps). The gun only works under the Life rule — select it first.",
     },
     {
       label: "Density",

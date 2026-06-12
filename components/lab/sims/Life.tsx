@@ -5,10 +5,18 @@ import { useEffect, useRef, useState } from "react";
 import type { MouseEvent, ReactNode } from "react";
 import { useCanvas, useLive, useRAF } from "../hooks";
 import { Btn, Group, ReadOut, Slider, SimLayout, Toggle, Transport } from "../controls";
+import {
+  PATTERNS,
+  RULES,
+  parseRule,
+  stampPattern,
+  stepLifelike,
+  type Pattern,
+} from "@/lib/ca/lifelike";
 
 const CELL = 9; // px per cell on stage
 
-type LifeP = { speed: number; density: number; wrap: boolean };
+type LifeP = { speed: number; density: number; wrap: boolean; rule: string };
 
 function makeGrid(cols: number, rows: number, density: number): Uint8Array {
   const g = new Uint8Array(cols * rows);
@@ -18,7 +26,12 @@ function makeGrid(cols: number, rows: number, density: number): Uint8Array {
 
 export function Life(): ReactNode {
   const [running, setRunning] = useState(true);
-  const [p, setP] = useState<LifeP>({ speed: 12, density: 0.3, wrap: true });
+  const [p, setP] = useState<LifeP>({
+    speed: 12,
+    density: 0.3,
+    wrap: true,
+    rule: "B3/S23",
+  });
   const [gen, setGen] = useState(0);
   const [pop, setPop] = useState(0);
   const live = useLive(p);
@@ -53,34 +66,20 @@ export function Life(): ReactNode {
   function step(): number {
     const { cols, rows } = dim.current;
     const g = grid.current,
-      nx = next.current,
-      wrap = live.current.wrap;
+      nx = next.current;
     if (!g || !nx) return 0;
-    let alivePop = 0;
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        let n = 0;
-        for (let dy = -1; dy <= 1; dy++)
-          for (let dx = -1; dx <= 1; dx++) {
-            if (!dx && !dy) continue;
-            let ny = y + dy,
-              nxx = x + dx;
-            if (wrap) {
-              ny = (ny + rows) % rows;
-              nxx = (nxx + cols) % cols;
-            } else if (ny < 0 || ny >= rows || nxx < 0 || nxx >= cols) continue;
-            n += g[ny * cols + nxx];
-          }
-        const alive = g[y * cols + x];
-        const a = alive ? n === 2 || n === 3 : n === 3;
-        nx[y * cols + x] = a ? 1 : 0;
-        if (a) alivePop++;
-      }
-    }
+    const pop = stepLifelike(
+      g,
+      nx,
+      cols,
+      rows,
+      parseRule(live.current.rule),
+      live.current.wrap,
+    );
     grid.current = nx;
     next.current = g;
     genRef.current++;
-    return alivePop;
+    return pop;
   }
 
   function draw() {
@@ -153,6 +152,21 @@ export function Life(): ReactNode {
     let pc = 0;
     for (const v of grid.current) pc += v;
     setPop(pc);
+    draw();
+  }
+
+  function stamp(pat: Pattern): void {
+    const { cols, rows } = dim.current;
+    const g = grid.current;
+    if (!g) return;
+    // Gosper gun near the top-left so its gliders have room to fly; small
+    // patterns centre-stage.
+    const oy = pat.name === "Gosper gun" ? 2 : Math.floor(rows / 2) - 1;
+    const ox = pat.name === "Gosper gun" ? 2 : Math.floor(cols / 2) - 1;
+    const pop = stampPattern(g, cols, rows, pat, oy, ox);
+    genRef.current = 0;
+    setGen(0);
+    setPop(pop);
     draw();
   }
 
@@ -232,6 +246,29 @@ export function Life(): ReactNode {
               onChange={(v) => setP((o) => ({ ...o, speed: v }))}
             />
           </Group>
+          <Group title="Rule">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {RULES.map((r) => (
+                <Btn
+                  key={r.code}
+                  on={p.rule === r.code}
+                  title={r.code}
+                  onClick={() => setP((o) => ({ ...o, rule: r.code }))}
+                >
+                  {r.name}
+                </Btn>
+              ))}
+            </div>
+          </Group>
+          <Group title="Pattern">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {PATTERNS.map((pat) => (
+                <Btn key={pat.name} onClick={() => stamp(pat)}>
+                  {pat.name}
+                </Btn>
+              ))}
+            </div>
+          </Group>
           <Group title="Seed">
             <Slider
               label="Density"
@@ -274,9 +311,9 @@ export function Life(): ReactNode {
       }
       footnote={
         <span>
-          Four rules, run on a grid: birth at 3 neighbours, survival at 2–3.
-          From this, gliders, oscillators and chaos. Draw your own seed and press
-          play.
+          Each cell lives or dies by how many of its 8 neighbours are alive.
+          Switch the birth/survival rule, stamp a classic like the Gosper gun, or
+          draw your own — then press play.
         </span>
       }
     />
